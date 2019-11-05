@@ -1,0 +1,1 @@
+g++ -o "/root/projects/remuduo/bin/x64/Debug/remuduo.out" -Wl,--no-undefined -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack /root/projects/remuduo/obj/x64/Debug/EventLoop.o -lmuduo_net -lmuduo_base -lpthread
