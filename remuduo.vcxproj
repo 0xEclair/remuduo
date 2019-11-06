@@ -78,7 +78,14 @@
     <None Include="EventLoop.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Channel.cc" />
     <ClCompile Include="EventLoop.cc" />
+    <ClCompile Include="main.cc" />
+    <ClCompile Include="Poller.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Channel.h" />
+    <None Include="Poller.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>

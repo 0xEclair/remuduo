@@ -1,8 +1,13 @@
 #pragma once
-#include <boost/noncopyable.hpp>
 #include <muduo/base/Thread.h>
 
+#include <boost/noncopyable.hpp>
+
+#include <vector>
+
 namespace remuduo {
+	class Channel;
+	class Poller;
 	class EventLoop :boost::noncopyable{
 	public:
 		EventLoop();
@@ -10,6 +15,10 @@ namespace remuduo {
 
 		void loop();
 
+		void quit();
+
+		void updateChannel(Channel* channel);
+		
 		void assertInLoopThread() {
 			if (!isInLoopThread()) {
 				abortNotInLoopThread();
@@ -21,11 +30,14 @@ namespace remuduo {
 		}
 		static EventLoop* getEventLoopOfCurrentThread();
 	private:
+		void abortNotInLoopThread();
 
 	private:
-		void abortNotInLoopThread();
 
 		bool looping_;/* atomic */
 		const pid_t threadId_;
+		bool quit_;
+		std::unique_ptr<Poller> poller_;
+		std::vector<Channel*> activeChannels_;
 	};
 }

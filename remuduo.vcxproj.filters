@@ -9,10 +9,25 @@
     <ClCompile Include="EventLoop.cc">
       <Filter>net</Filter>
     </ClCompile>
+    <ClCompile Include="Channel.cc">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="Poller.cc">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EventLoop.h">
       <Filter>net</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Channel.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="Poller.h">
+      <Filter>net</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
