@@ -4,6 +4,9 @@
     <Filter Include="net">
       <UniqueIdentifier>{57797adc-8416-45b3-87ea-1d126a296bd9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="base">
+      <UniqueIdentifier>{de5c05ff-14de-4929-a1b6-547be8103588}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventLoop.cc">
@@ -16,18 +19,31 @@
       <Filter>net</Filter>
     </ClCompile>
     <ClCompile Include="main.cc" />
+    <ClCompile Include="TimerQueue.cc">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cc">
+      <Filter>base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EventLoop.h">
       <Filter>net</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Channel.h">
+    <None Include="Channel.h">
       <Filter>net</Filter>
-    </ClInclude>
-    <ClInclude Include="Poller.h">
+    </None>
+    <None Include="Poller.h">
       <Filter>net</Filter>
-    </ClInclude>
+    </None>
+    <None Include="TimerQueue.h">
+      <Filter>base</Filter>
+    </None>
+    <None Include="Timer.h">
+      <Filter>base</Filter>
+    </None>
+    <None Include="TimerId.h">
+      <Filter>base</Filter>
+    </None>
   </ItemGroup>
 </Project>

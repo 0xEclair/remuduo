@@ -2,6 +2,7 @@
 
 #include "Channel.h"
 #include "Poller.h"
+#include "TimerQueue.h"
 
 #include <assert.h>
 #include <muduo/base/Logging.h>
@@ -14,8 +15,11 @@ namespace {
 	constexpr auto kPollTimeMs = 10000;
 }
 
-EventLoop::EventLoop():looping_(false),threadId_(muduo::CurrentThread::tid()),
-	quit_(false),poller_(new Poller(this)){
+EventLoop::EventLoop()
+	:looping_(false), quit_(false),
+	 threadId_(muduo::CurrentThread::tid()),
+	 poller_(new Poller(this)),
+	 timerQueue_(new TimerQueue(this)){
 	LOG_TRACE << "EventLoop created" << this << " in thread " << threadId_;
 	if(loopInThisThread) {
 		LOG_FATAL << "Another EventLoop " << loopInThisThread << "exists in this thread " << threadId_;
@@ -51,6 +55,20 @@ void EventLoop::loop() {
 void EventLoop::quit() {
 	quit_ = true;
 	// wakeup();
+}
+
+TimerId EventLoop::runAt(const muduo::Timestamp& time, const std::function<void()>& cb) {
+	return timerQueue_->addTimer(cb, time, 0.0);
+}
+
+TimerId EventLoop::runAfter(double delay, const std::function<void()>& cb) {
+	muduo::Timestamp time(muduo::addTime(muduo::Timestamp::now(), delay));
+	return runAt(time, cb);
+}
+
+TimerId EventLoop::runEvery(double interval, const std::function<void()>& cb) {
+	muduo::Timestamp time(muduo::addTime(muduo::Timestamp::now(), interval));
+	return timerQueue_->addTimer(cb, time, interval);
 }
 
 void EventLoop::updateChannel(Channel* channel) {
