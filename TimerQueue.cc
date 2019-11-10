@@ -131,7 +131,7 @@ void TimerQueue::reset(const std::vector<Entry>& expired, muduo::Timestamp now) 
 		resetTimerfd(timerfd_, nextExpire);
 	}
 }
-
+ 
 bool TimerQueue::insert(Timer* timer) {
 	auto earliestChanged=false;
 	auto when = timer->expiration();
