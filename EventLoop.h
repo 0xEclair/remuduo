@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "TimerId.h"
+#include "TimerQueue.h"
 
 namespace remuduo {
 	class Channel;
@@ -41,11 +42,11 @@ namespace remuduo {
 
 	private:
 
-		bool looping_;/* atomic */
+		bool looping_{ false };/* atomic */
 		const pid_t threadId_;
-		bool quit_;
+		bool quit_{ false };
 		std::unique_ptr<Poller> poller_;
-		std::unique_ptr<TimerQueue> timerQueue_;
+		std::unique_ptr<TimerQueue> timerQueue_{ new TimerQueue{this} };
 		std::vector<Channel*> activeChannels_;
 	};
 }

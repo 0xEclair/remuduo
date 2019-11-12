@@ -1,12 +1,10 @@
 #include "EventLoop.h"
 
-#include "Channel.h"
 #include "Poller.h"
-#include "TimerQueue.h"
+#include "Channel.h"
 
 #include <assert.h>
 #include <muduo/base/Logging.h>
-
 
 using namespace remuduo;
 
@@ -16,10 +14,8 @@ namespace {
 }
 
 EventLoop::EventLoop()
-	:looping_(false), quit_(false),
-	 threadId_(muduo::CurrentThread::tid()),
-	 poller_(new Poller(this)),
-	 timerQueue_(new TimerQueue(this)){
+	:threadId_(muduo::CurrentThread::tid()),
+	 poller_(new Poller(this)){
 	LOG_TRACE << "EventLoop created" << this << " in thread " << threadId_;
 	if(loopInThisThread) {
 		LOG_FATAL << "Another EventLoop " << loopInThisThread << "exists in this thread " << threadId_;
