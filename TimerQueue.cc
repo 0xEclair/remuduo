@@ -15,6 +15,8 @@ namespace remuduo{
 	namespace details {
 
 		int createTimerfd() {
+			// FD_CLOEXEC 使用exec时，此fd被关闭，不能再使用，但是fork的子进程里面，未关闭，仍可调用
+			// 怀疑是close(tfd)而已
 			auto timerfd = ::timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK | TFD_CLOEXEC);
 			if(timerfd<0) {
 				LOG_SYSFATAL << "Failed in timerfd_create";
@@ -60,7 +62,7 @@ using namespace remuduo::details;
 
 TimerQueue::TimerQueue(EventLoop* loop)
 	:loop_(loop),timerfd_(createTimerfd()),
-	 timerfdChannel_(loop,timerfd_),timers_(){
+	 timerfdChannel_(loop,timerfd_){
 	timerfdChannel_.setReadCallback(std::bind(&TimerQueue::handleRead, this));
 	timerfdChannel_.enableReading();
 }
