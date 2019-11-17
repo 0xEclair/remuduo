@@ -19,7 +19,7 @@ namespace remuduo {
 		~TimerQueue();
 
 		TimerId addTimer(const std::function<void()>& cb, muduo::Timestamp when, double interval);
-
+		void addTimerInLoop(Timer* timer);
 		//void cancel(TimerId timerId);
 
 	private:

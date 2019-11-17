@@ -76,13 +76,16 @@ TimerQueue::~TimerQueue() {
 
 TimerId TimerQueue::addTimer(const std::function<void()>& cb, muduo::Timestamp when, double interval) {
 	auto timer = new Timer(cb, when, interval);
+	loop_->runInLoop(std::bind(&TimerQueue::addTimerInLoop, this, timer));
+	return TimerId(timer);
+}
+
+void TimerQueue::addTimerInLoop(Timer* timer) {
 	loop_->assertInLoopThread();
-	auto earliestChanged = insert(timer);
+	bool earliestChanged = insert(timer);
 	if(earliestChanged) {
 		resetTimerfd(timerfd_, timer->expiration());
 	}
-	return TimerId(timer);
-	
 }
 
 void TimerQueue::handleRead() {

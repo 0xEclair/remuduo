@@ -25,6 +25,9 @@
     <ClCompile Include="Timer.cc">
       <Filter>base</Filter>
     </ClCompile>
+    <ClCompile Include="EventLoopThread.cc">
+      <Filter>net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EventLoop.h">
@@ -45,5 +48,10 @@
     <None Include="TimerId.h">
       <Filter>base</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EventLoopThread.h">
+      <Filter>net</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

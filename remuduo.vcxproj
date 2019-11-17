@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="Channel.cc" />
     <ClCompile Include="EventLoop.cc" />
+    <ClCompile Include="EventLoopThread.cc" />
     <ClCompile Include="main.cc" />
     <ClCompile Include="Poller.cc" />
     <ClCompile Include="Timer.cc" />
@@ -93,6 +94,9 @@
     <None Include="Timer.h" />
     <None Include="TimerId.h" />
     <None Include="TimerQueue.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EventLoopThread.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
