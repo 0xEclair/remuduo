@@ -78,11 +78,15 @@
     <None Include="EventLoop.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Acceptor.cc" />
     <ClCompile Include="Channel.cc" />
     <ClCompile Include="EventLoop.cc" />
     <ClCompile Include="EventLoopThread.cc" />
+    <ClCompile Include="InetAddress.cc" />
     <ClCompile Include="main.cc" />
     <ClCompile Include="Poller.cc" />
+    <ClCompile Include="Socket.cc" />
+    <ClCompile Include="SocketsOps.cc" />
     <ClCompile Include="Timer.cc" />
     <ClCompile Include="TimerQueue.cc" />
   </ItemGroup>
@@ -96,7 +100,11 @@
     <None Include="TimerQueue.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Acceptor.h" />
     <ClInclude Include="EventLoopThread.h" />
+    <None Include="InetAddress.h" />
+    <None Include="Socket.h" />
+    <None Include="SocketsOps.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>

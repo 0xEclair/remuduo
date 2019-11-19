@@ -28,6 +28,18 @@
     <ClCompile Include="EventLoopThread.cc">
       <Filter>net</Filter>
     </ClCompile>
+    <ClCompile Include="InetAddress.cc">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketsOps.cc">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="Socket.cc">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="Acceptor.cc">
+      <Filter>net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EventLoop.h">
@@ -47,6 +59,18 @@
     </None>
     <None Include="TimerId.h">
       <Filter>base</Filter>
+    </None>
+    <None Include="InetAddress.h">
+      <Filter>net</Filter>
+    </None>
+    <None Include="Acceptor.h">
+      <Filter>net</Filter>
+    </None>
+    <None Include="SocketsOps.h">
+      <Filter>net</Filter>
+    </None>
+    <None Include="Socket.h">
+      <Filter>net</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
