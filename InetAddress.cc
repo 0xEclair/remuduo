@@ -3,12 +3,12 @@
 #include "SocketsOps.h"
 
 #include <strings.h>
-#include <assert.h>
+#include <boost/static_assert.hpp>
 
 using namespace remuduo;
 
 static constexpr in_addr_t kInaddrAny{ INADDR_ANY };
-static_assert(sizeof(InetAddress) == sizeof(sockaddr_in));
+BOOST_STATIC_ASSERT(sizeof(InetAddress) == sizeof(sockaddr_in));
 
 InetAddress::InetAddress(uint16_t port) {
 	bzero(&addr_, sizeof addr_);

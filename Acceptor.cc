@@ -16,7 +16,7 @@ Acceptor::Acceptor(EventLoop* loop, const InetAddress& listenAddr)
 	acceptChannel_.setReadCallback([this]() {
 		loop_->assertInLoopThread();
 		InetAddress peerAddr(0);
-		auto connfd{ acceptSocket_.accept(&peerAddr) };
+		int connfd{ acceptSocket_.accept(&peerAddr) };
 		if(connfd>=0) {
 			if(newConnectionCallback_) {
 				newConnectionCallback_(std::move(connfd), peerAddr);

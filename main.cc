@@ -1,26 +1,35 @@
+#include "Acceptor.h"
 #include "EventLoop.h"
-#include "EventLoopThread.h"
+#include "InetAddress.h"
+#include "SocketsOps.h"
 #include <stdio.h>
 
-void runInThread()
+void newConnection(int sockfd, const remuduo::InetAddress& peerAddr)
 {
-	printf("runInThread(): pid = %d, tid = %d\n",
-		getpid(), muduo::CurrentThread::tid());
+	printf("newConnection(): accepted a new connection from %s\n",
+		peerAddr.toHostPort().c_str());
+	std::string t(muduo::Timestamp::now().toFormattedString());
+	::write(sockfd,t.data() , t.size());
+	remuduo::sockets::close(sockfd);
 }
 
-int main()
+int test7()
 {
-	printf("main(): pid = %d, tid = %d\n",
-		getpid(), muduo::CurrentThread::tid());
+	printf("main(): pid = %d\n", getpid());
 
-	remuduo::EventLoopThread loopThread;
-	remuduo::EventLoop* loop = loopThread.startLoop();
-	loop->runInLoop(runInThread);
-	sleep(1);
-	loop->runAfter(2, runInThread);
-	sleep(3);
-	loop->quit();
+	remuduo::InetAddress listenAddr(9981);
+	remuduo::EventLoop loop;
 
-	printf("exit main().\n");
+	remuduo::Acceptor acceptor(&loop, listenAddr);
+	acceptor.setNewConnectionCallback(newConnection);
+	acceptor.listen();
+
+	loop.loop();
+
 	return 0;
-} 
+}
+
+auto main() ->int {
+	test7();
+	return 0;
+}

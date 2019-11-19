@@ -21,9 +21,9 @@ namespace {
 	}
 
 	void setNonBlockAndCloseOnExec(int sockfd) {
-		auto flags{ ::fcntl(sockfd,F_GETFL,0) };
+		int flags{ ::fcntl(sockfd,F_GETFL,0) };
 		flags |= O_NONBLOCK;
-		auto ret{ ::fcntl(sockfd,F_SETFL,flags) };
+		int ret{ ::fcntl(sockfd,F_SETFL,flags) };
 		// FIXME check
 
 		// close-on-exec
@@ -36,13 +36,13 @@ namespace {
 
 int sockets::createNonBlockingOrDie() {
 #if VALGRIND
-	auto sockfd{ ::socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) };
+	int sockfd{ ::socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) };
 	if(sockfd<0) {
 		LOG_SYSFATAL << "sockets::createNonblockingOrDie";
 	}
 	setNonBlockAndCloseOnExec(sockfd);
 #else
-	auto sockfd{ ::socket(AF_INET,SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC,IPPROTO_TCP) };
+	int sockfd{ ::socket(AF_INET,SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC,IPPROTO_TCP) };
 	if(sockfd<0) {
 		LOG_SYSFATAL << "sockets::createNonblockingOrDie";
 	}
@@ -51,14 +51,14 @@ int sockets::createNonBlockingOrDie() {
 }
 
 void sockets::bindOrDie(int sockfd, const sockaddr_in& addr) {
-	auto ret{ ::bind(sockfd,sockaddr_cast(&addr),sizeof addr) };
+	int ret{ ::bind(sockfd,sockaddr_cast(&addr),sizeof addr) };
 	if(ret<0) {
 		LOG_SYSFATAL << "sockets::bindOrDie";
 	}
 }
 
 void sockets::listenOrDie(int sockfd) {
-	auto ret{ ::listen(sockfd,SOMAXCONN) };
+	int ret{ ::listen(sockfd,SOMAXCONN) };
 	if(ret<0) {
 		LOG_SYSFATAL << "sockets::listenOrDie";
 	}
@@ -67,10 +67,10 @@ void sockets::listenOrDie(int sockfd) {
 int sockets::accept(int sockfd, sockaddr_in* addr) {
 	socklen_t addrlen = sizeof *addr;
 #if VALGRIND
-	auto connfd{ ::accept(sockfd,sockaddr_cast(addr),&addrlen) };
+	int connfd{ ::accept(sockfd,sockaddr_cast(addr),&addrlen) };
 	setNonBlockAndCloseOnExec(connfd);
 #else
-	auto connfd{ ::accept(sockfd,sockaddr_cast(addr),&addrlen,SOCK_NONBLOCK | SOCK_CLOEXEC) };
+	int connfd { ::accept4(sockfd,sockaddr_cast(addr),&addrlen,SOCK_NONBLOCK | SOCK_CLOEXEC) };
 #endif
 	if(connfd<0) {
 		auto savedErrno = errno;
