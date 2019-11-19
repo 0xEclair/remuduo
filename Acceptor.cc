@@ -19,7 +19,7 @@ Acceptor::Acceptor(EventLoop* loop, const InetAddress& listenAddr)
 		auto connfd{ acceptSocket_.accept(&peerAddr) };
 		if(connfd>=0) {
 			if(newConnectionCallback_) {
-				newConnectionCallback_(connfd, peerAddr);
+				newConnectionCallback_(std::move(connfd), peerAddr);
 			}
 			else {
 				sockets::close(connfd);
