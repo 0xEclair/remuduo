@@ -21,8 +21,12 @@ namespace remuduo {
 		
 	private:
 		EventLoop* loop_;
+		// accept and listen
+		// socket manage listen_fd with RAII
 		Socket acceptSocket_;
+		// channel manage listen_fd for callback to invoke cb
 		Channel acceptChannel_;
+		// callback for accept()
 		NewConnectionCallback newConnectionCallback_;
 		bool listenning_ { false };
 	};

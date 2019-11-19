@@ -33,5 +33,6 @@ void Acceptor::listen() {
 	loop_->assertInLoopThread();
 	listenning_ = true;
 	acceptSocket_.listen();
+	// in enableReading() ,use update() to add to poll
 	acceptChannel_.enableReading();
 }
