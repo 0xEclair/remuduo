@@ -75,43 +75,35 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
-    <None Include="EventLoop.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Acceptor.cc" />
-    <ClCompile Include="Channel.cc" />
-    <ClCompile Include="EventLoop.cc" />
-    <ClCompile Include="EventLoopThread.cc" />
-    <ClCompile Include="InetAddress.cc" />
+    <ClCompile Include="base\Timer.cc" />
+    <ClCompile Include="base\TimerQueue.cc" />
     <ClCompile Include="main.cc" />
-    <ClCompile Include="Poller.cc" />
-    <ClCompile Include="Socket.cc" />
-    <ClCompile Include="SocketsOps.cc" />
-    <ClCompile Include="TcpConnection.cc" />
-    <ClCompile Include="TcpServer.cc" />
-    <ClCompile Include="Timer.cc" />
-    <ClCompile Include="TimerQueue.cc" />
+    <ClCompile Include="net\Acceptor.cc" />
+    <ClCompile Include="net\Channel.cc" />
+    <ClCompile Include="net\EventLoop.cc" />
+    <ClCompile Include="net\EventLoopThread.cc" />
+    <ClCompile Include="net\InetAddress.cc" />
+    <ClCompile Include="net\Poller.cc" />
+    <ClCompile Include="net\Socket.cc" />
+    <ClCompile Include="net\SocketsOps.cc" />
+    <ClCompile Include="net\TcpConnection.cc" />
+    <ClCompile Include="net\TcpServer.cc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Channel.h" />
-    <None Include="Poller.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Timer.h" />
-    <None Include="TimerId.h" />
-    <None Include="TimerQueue.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TcpServer.h" />
-    <None Include="Acceptor.h" />
-    <None Include="EventLoopThread.h" />
-    <None Include="InetAddress.h" />
-    <None Include="Socket.h" />
-    <None Include="SocketsOps.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Callbacks.h" />
-    <None Include="TcpConnection.h" />
+    <ClInclude Include="base\Callbacks.h" />
+    <ClInclude Include="base\Timer.h" />
+    <ClInclude Include="base\TimerId.h" />
+    <ClInclude Include="base\TimerQueue.h" />
+    <ClInclude Include="net\Acceptor.h" />
+    <ClInclude Include="net\Channel.h" />
+    <ClInclude Include="net\EventLoop.h" />
+    <ClInclude Include="net\EventLoopThread.h" />
+    <ClInclude Include="net\InetAddress.h" />
+    <ClInclude Include="net\Poller.h" />
+    <ClInclude Include="net\Socket.h" />
+    <ClInclude Include="net\SocketsOps.h" />
+    <ClInclude Include="net\TcpConnection.h" />
+    <ClInclude Include="net\TcpServer.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>

@@ -3,6 +3,7 @@
 #include "SocketsOps.h"
 
 #include <strings.h>
+
 #include <boost/static_assert.hpp>
 
 using namespace remuduo;

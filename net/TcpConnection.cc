@@ -1,7 +1,6 @@
 #pragma once
-
 #include "TcpConnection.h"
-#include <muduo/base/Logging.h>
+
 #include "Channel.h"
 #include "EventLoop.h"
 #include "Socket.h"
@@ -9,6 +8,8 @@
 #include <errno.h>
 #include <stdio.h>
 #include <memory>
+
+#include <muduo/base/Logging.h>
 
 using namespace remuduo;
 

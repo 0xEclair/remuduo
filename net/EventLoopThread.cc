@@ -1,7 +1,6 @@
 #include "EventLoop.h"
+
 #include "EventLoopThread.h"
-
-
 
 using namespace remuduo;
 

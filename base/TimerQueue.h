@@ -1,19 +1,21 @@
 #pragma once
-#include <muduo/base/Timestamp.h>
-#include <boost/noncopyable.hpp>
-#include <muduo/base/Mutex.h>
+#include "../net/Channel.h"
 
 #include <set>
 #include <memory>
 #include <vector>
 #include <functional>
 
-#include "Channel.h"
+#include <muduo/base/Mutex.h>
+#include <muduo/base/Timestamp.h>
+#include <boost/noncopyable.hpp>
+
 namespace remuduo {
 	class EventLoop;
 	class Timer;
 	class TimerId;
-	class TimerQueue:boost::noncopyable {
+
+	class TimerQueue : boost::noncopyable {
 	public:
 		TimerQueue(EventLoop* loop);
 		~TimerQueue();
@@ -25,7 +27,7 @@ namespace remuduo {
 	private:
 		void handleRead();
 
-		using Entry = std::pair<muduo::Timestamp,Timer*>;
+		using Entry = std::pair<muduo::Timestamp, Timer*>;
 		std::vector<Entry> getExpired(muduo::Timestamp now);
 		void reset(const std::vector<Entry>& expired, muduo::Timestamp now);
 

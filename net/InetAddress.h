@@ -1,7 +1,7 @@
 ﻿#pragma once
-
 #include <string>
 #include <netinet/in.h>
+
 namespace remuduo {
 	
 	class InetAddress {

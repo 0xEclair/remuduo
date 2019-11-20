@@ -1,9 +1,8 @@
 #pragma once
-
-#include <boost/noncopyable.hpp>
-
 #include <poll.h>
 #include <functional>
+
+#include <boost/noncopyable.hpp>
 
 namespace remuduo {
 	class EventLoop;

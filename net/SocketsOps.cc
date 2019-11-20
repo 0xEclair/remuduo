@@ -1,5 +1,4 @@
 #include "SocketsOps.h"
-#include <muduo/base/Logging.h>
 
 #include <errno.h>
 #include <fcntl.h>
@@ -7,6 +6,8 @@
 #include <strings.h> // bzero
 #include <sys/socket.h>
 #include <unistd.h>
+
+#include <muduo/base/Logging.h>
 
 using namespace remuduo;
 namespace {

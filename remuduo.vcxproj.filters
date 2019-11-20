@@ -1,95 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="net">
-      <UniqueIdentifier>{57797adc-8416-45b3-87ea-1d126a296bd9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="base">
-      <UniqueIdentifier>{de5c05ff-14de-4929-a1b6-547be8103588}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="EventLoop.cc">
-      <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="Channel.cc">
-      <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="Poller.cc">
-      <Filter>net</Filter>
-    </ClCompile>
     <ClCompile Include="main.cc" />
-    <ClCompile Include="TimerQueue.cc">
+    <ClCompile Include="base\Timer.cc">
       <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cc">
+    <ClCompile Include="base\TimerQueue.cc">
       <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="EventLoopThread.cc">
+    <ClCompile Include="net\Acceptor.cc">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="InetAddress.cc">
+    <ClCompile Include="net\Channel.cc">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="SocketsOps.cc">
+    <ClCompile Include="net\EventLoop.cc">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="Socket.cc">
+    <ClCompile Include="net\EventLoopThread.cc">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="Acceptor.cc">
+    <ClCompile Include="net\InetAddress.cc">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="TcpServer.cc">
+    <ClCompile Include="net\Poller.cc">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="TcpConnection.cc">
+    <ClCompile Include="net\Socket.cc">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="net\SocketsOps.cc">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="net\TcpConnection.cc">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="net\TcpServer.cc">
       <Filter>net</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EventLoop.h">
-      <Filter>net</Filter>
-    </None>
-    <None Include="Channel.h">
-      <Filter>net</Filter>
-    </None>
-    <None Include="Poller.h">
-      <Filter>net</Filter>
-    </None>
-    <None Include="TimerQueue.h">
-      <Filter>base</Filter>
-    </None>
-    <None Include="Timer.h">
-      <Filter>base</Filter>
-    </None>
-    <None Include="TimerId.h">
-      <Filter>base</Filter>
-    </None>
-    <None Include="InetAddress.h">
-      <Filter>net</Filter>
-    </None>
-    <None Include="Acceptor.h">
-      <Filter>net</Filter>
-    </None>
-    <None Include="SocketsOps.h">
-      <Filter>net</Filter>
-    </None>
-    <None Include="Socket.h">
-      <Filter>net</Filter>
-    </None>
-    <None Include="TcpServer.h">
-      <Filter>net</Filter>
-    </None>
-    <None Include="EventLoopThread.h">
-      <Filter>net</Filter>
-    </None>
-    <None Include="TcpConnection.h">
-      <Filter>net</Filter>
-    </None>
+    <Filter Include="base">
+      <UniqueIdentifier>{91b96865-bc2d-412a-8a28-950f72169a28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="net">
+      <UniqueIdentifier>{a3351607-4a27-4388-a392-a9c4f33cd391}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Callbacks.h">
+    <ClInclude Include="base\Timer.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\TimerId.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\TimerQueue.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="net\Acceptor.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\Channel.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\EventLoop.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\EventLoopThread.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\InetAddress.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\Poller.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\Socket.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\SocketsOps.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\TcpConnection.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\TcpServer.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Callbacks.h">
       <Filter>base</Filter>
     </ClInclude>
   </ItemGroup>

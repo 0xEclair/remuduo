@@ -1,8 +1,9 @@
 #pragma once
+#include <functional>
 
 #include <boost/noncopyable.hpp>
 #include <muduo/base/Timestamp.h>
-#include <functional>
+
 namespace remuduo {
 	class Timer:boost::noncopyable{
 	public:

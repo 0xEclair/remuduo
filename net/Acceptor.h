@@ -1,8 +1,10 @@
-#include <functional>
-#include <boost/noncopyable.hpp>
-
 #include "Channel.h"
 #include "Socket.h"
+
+#include <functional>
+
+#include <boost/noncopyable.hpp>
+
 namespace remuduo {
 
 	class EventLoop;

@@ -4,8 +4,9 @@
 #include "Channel.h"
 
 #include <assert.h>
-#include <muduo/base/Logging.h>
 #include <sys/eventfd.h>
+
+#include <muduo/base/Logging.h>
 
 using namespace remuduo;
 
