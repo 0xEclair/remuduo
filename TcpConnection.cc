@@ -14,10 +14,13 @@ using namespace remuduo;
 
 TcpConnection::TcpConnection(EventLoop* loop, const std::string& nameArg, int sockfd, const InetAddress& localAddr,
 	const InetAddress& peerAddr)
-	:loop_(CHECK_NOTNULL(loop)),name_(nameArg),socket_(new Socket(sockfd)),
-	 channel_(new Channel(loop,sockfd)),localAddr_(localAddr),peerAddr_(peerAddr){
+	:loop_(CHECK_NOTNULL(loop)),name_(nameArg),
+	 socket_(new Socket(sockfd)),channel_(new Channel(loop,sockfd)),
+	 localAddr_(localAddr),peerAddr_(peerAddr){
+	
 	LOG_DEBUG << "TcpConnection::ctor[" << name_ << "] at " << this << " fd = " << sockfd;
 	channel_->setReadCallback(std::bind(&TcpConnection::handleRead,this));
+	
 }
 
 TcpConnection::~TcpConnection() {
