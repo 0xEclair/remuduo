@@ -87,6 +87,8 @@
     <ClCompile Include="Poller.cc" />
     <ClCompile Include="Socket.cc" />
     <ClCompile Include="SocketsOps.cc" />
+    <ClCompile Include="TcpConnection.cc" />
+    <ClCompile Include="TcpServer.cc" />
     <ClCompile Include="Timer.cc" />
     <ClCompile Include="TimerQueue.cc" />
   </ItemGroup>
@@ -100,11 +102,16 @@
     <None Include="TimerQueue.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="TcpServer.h" />
     <None Include="Acceptor.h" />
-    <ClInclude Include="EventLoopThread.h" />
+    <None Include="EventLoopThread.h" />
     <None Include="InetAddress.h" />
     <None Include="Socket.h" />
     <None Include="SocketsOps.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Callbacks.h" />
+    <None Include="TcpConnection.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>

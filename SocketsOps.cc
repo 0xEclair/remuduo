@@ -122,3 +122,13 @@ void sockets::fromHostPort(const char* ip, uint64_t port, sockaddr_in* addr) {
 		LOG_SYSERR << "sockets::fromHostPort";
 	}
 }
+
+sockaddr_in sockets::getLocalAddr(int sockfd) {
+	sockaddr_in localaddr;
+	bzero(&localaddr, sizeof localaddr);
+	socklen_t addrlen{ sizeof(localaddr) };
+	if(::getsockname(sockfd,sockaddr_cast(&localaddr),&addrlen)<0) {
+		LOG_SYSERR << "sockets::getLocalAddr ";
+	}
+	return localaddr;
+}

@@ -40,6 +40,12 @@
     <ClCompile Include="Acceptor.cc">
       <Filter>net</Filter>
     </ClCompile>
+    <ClCompile Include="TcpServer.cc">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpConnection.cc">
+      <Filter>net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EventLoop.h">
@@ -72,10 +78,19 @@
     <None Include="Socket.h">
       <Filter>net</Filter>
     </None>
+    <None Include="TcpServer.h">
+      <Filter>net</Filter>
+    </None>
+    <None Include="EventLoopThread.h">
+      <Filter>net</Filter>
+    </None>
+    <None Include="TcpConnection.h">
+      <Filter>net</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EventLoopThread.h">
-      <Filter>net</Filter>
+    <ClInclude Include="Callbacks.h">
+      <Filter>base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

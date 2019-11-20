@@ -1,35 +1,44 @@
-#include "Acceptor.h"
+#include "TcpServer.h"
 #include "EventLoop.h"
 #include "InetAddress.h"
-#include "SocketsOps.h"
 #include <stdio.h>
 
-void newConnection(int sockfd, const remuduo::InetAddress& peerAddr)
+void onConnection(const remuduo::TcpConnectionPtr& conn)
 {
-	printf("newConnection(): accepted a new connection from %s\n",
-		peerAddr.toHostPort().c_str());
-	std::string t(muduo::Timestamp::now().toFormattedString());
-	::write(sockfd,t.data() , t.size());
-	remuduo::sockets::close(sockfd);
+	if (conn->connected())
+	{
+		printf("onConnection(): new connection [%s] from %s\n",
+			conn->name().c_str(),
+			conn->peerAddress().toHostPort().c_str());
+	}
+	else
+	{
+		printf("onConnection(): connection [%s] is down\n",
+			conn->name().c_str());
+	}
 }
 
-int test7()
+void onMessage(const remuduo::TcpConnectionPtr& conn,
+	const char* data,
+	ssize_t len)
+{
+	printf("onMessage(): received %zd bytes from connection [%s]\n",
+		len, conn->name().c_str());
+}
+
+int main()
 {
 	printf("main(): pid = %d\n", getpid());
 
 	remuduo::InetAddress listenAddr(9981);
 	remuduo::EventLoop loop;
 
-	remuduo::Acceptor acceptor(&loop, listenAddr);
-	acceptor.setNewConnectionCallback(newConnection);
-	acceptor.listen();
+	remuduo::TcpServer server(&loop, listenAddr);
+	server.setConnectionCallback(onConnection);
+	server.setMessageCallback(onMessage);
+	server.start();
 
 	loop.loop();
 
-	return 0;
-}
-
-auto main() ->int {
-	test7();
 	return 0;
 }
