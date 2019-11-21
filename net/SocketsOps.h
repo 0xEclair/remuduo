@@ -41,6 +41,7 @@ namespace sockets {
 	void fromHostPort(const char* ip, uint64_t port, sockaddr_in* addr);
 
 	sockaddr_in getLocalAddr(int sockfd);
-	
+
+	auto getSocketError(int sockfd) -> int;
 }
 }

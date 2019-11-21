@@ -124,6 +124,12 @@ void EventLoop::updateChannel(Channel* channel) {
 	poller_->updateChannel(channel);
 }
 
+auto EventLoop::removeChannel(Channel* channel) -> void {
+	assert(channel->ownerLoop() == this);
+	assertInLoopThread();
+	poller_->removeChannel(channel);
+}
+
 EventLoop* EventLoop::getEventLoopOfCurrentThread() {
 	return loopInThisThread;
 }

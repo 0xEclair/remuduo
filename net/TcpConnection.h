@@ -23,19 +23,23 @@ namespace remuduo {
 
 		void setConnectionCallback(const ConnectionCallback& cb) { connectionCallback_ = cb; }
 		void setMessageCallback(const MessageCallback& cb) { messageCallback_ = cb; }
-		//void setCloseCallback()
+		void setCloseCallback(const CloseCallback& cb) { closeCallback_ = cb;  }
 
 		void connectEstablished();
+		void connectDestroyed();
 
 		const std::string& name()const { return name_; }
 		const InetAddress& localAddress() { return localAddr_; }
 		const InetAddress& peerAddress() { return peerAddr_; }
 		bool connected() const { return state_ == kConnected; }
 	private:
-		enum StateE{kConnecting,kConnected,};
+		enum StateE{kConnecting,kConnected,kDisconnected,};
 
 		void setState(StateE s) { state_ = s; }
-		void handleRead();
+		auto handleRead() -> void;
+		auto handleWrite() -> void {}
+		auto handleClose() -> void;
+		auto handleError() -> void;
 	private:
 		EventLoop* loop_;
 		std::string name_;
@@ -47,6 +51,6 @@ namespace remuduo {
 		InetAddress peerAddr_;
 		ConnectionCallback connectionCallback_;
 		MessageCallback messageCallback_;
-		
+		CloseCallback closeCallback_;
 	};
 }

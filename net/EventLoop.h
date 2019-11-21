@@ -32,6 +32,8 @@ namespace remuduo {
 
 		void wakeup();
 		void updateChannel(Channel* channel);
+
+		auto removeChannel(Channel* channel) -> void;
 		
 		void assertInLoopThread() {
 			if (!isInLoopThread()) {

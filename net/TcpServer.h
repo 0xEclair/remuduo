@@ -29,6 +29,7 @@ namespace remuduo {
 		
 	private:
 		void newConnection(int sockfd, const InetAddress& peerAddr);
+		
 	private:
 		EventLoop* loop_;
 		const std::string name_;

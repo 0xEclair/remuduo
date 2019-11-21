@@ -19,6 +19,8 @@ namespace remuduo {
 		muduo::Timestamp poll(int timeoutMs, std::vector<Channel*>* activeChannels);
 		void updateChannel(Channel* channel);
 
+		auto removeChannel(Channel* channel) -> void;
+
 		void assertInLoopThread() { ownerLoop_->assertInLoopThread(); }
 	private:
 		void fillActiveChannels(int numEvents, std::vector<Channel*>* activeChannels)const;
