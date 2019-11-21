@@ -91,10 +91,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\Callbacks.h" />
+    <None Include="base\copyable.h" />
     <ClInclude Include="base\Timer.h" />
     <ClInclude Include="base\TimerId.h" />
     <ClInclude Include="base\TimerQueue.h" />
     <ClInclude Include="net\Acceptor.h" />
+    <None Include="net\Buffer.h" />
     <ClInclude Include="net\Channel.h" />
     <ClInclude Include="net\EventLoop.h" />
     <ClInclude Include="net\EventLoopThread.h" />

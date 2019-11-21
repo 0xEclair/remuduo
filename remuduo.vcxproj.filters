@@ -91,4 +91,12 @@
       <Filter>base</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="base\copyable.h">
+      <Filter>base</Filter>
+    </None>
+    <None Include="net\Buffer.h">
+      <Filter>net</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -3,18 +3,18 @@
 #include <functional>
 
 #include <boost/noncopyable.hpp>
-
+#include <muduo/base/Timestamp.h>
 namespace remuduo {
 	class EventLoop;
 
 	class Channel:boost::noncopyable {
 	public:
 		using EventCallback = std::function<void()>;
-
+		using ReadEventCallback = std::function<void(Timestamp)>;
 		Channel(EventLoop* loop, int fd);
 		~Channel();
-		void handleEvent();
-		void setReadCallback(const EventCallback& cb) { readCallback_ = cb; }
+		void handleEvent(muduo::Timestamp receiveTime);
+		void setReadCallback(const ReadEventCallback& cb) { readCallback_ = cb; }
 		void setWriteCallback(const EventCallback& cb) { writeCallback_ = cb; }
 		void setCloseCallback(const EventCallback& cb) { closeCallback_ = cb; }
 		void setErrorCallback(const EventCallback& cb) { errorCallback_ = cb; }
@@ -48,7 +48,7 @@ namespace remuduo {
 
 		bool eventHandling_ { false };
 		
-		EventCallback readCallback_;
+		ReadEventCallback readCallback_;
 		EventCallback writeCallback_;
 		EventCallback errorCallback_;
 		EventCallback closeCallback_;

@@ -18,7 +18,7 @@ Channel::~Channel() {
 	assert(!eventHandling_);
 }
 
-void Channel::handleEvent() {
+void Channel::handleEvent(muduo::Timestamp receiveTime) {
 	eventHandling_ = true;
 	
 	if(revents_ & POLLNVAL) {
