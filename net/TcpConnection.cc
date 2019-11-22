@@ -21,8 +21,8 @@ TcpConnection::TcpConnection(EventLoop* loop, const std::string& nameArg, int so
 	 localAddr_(localAddr),peerAddr_(peerAddr){
 	
 	LOG_DEBUG << "TcpConnection::ctor[" << name_ << "] at " << this << " fd = " << sockfd;
-	channel_->setReadCallback(std::bind(&TcpConnection::handleRead,this));
-	channel_->setWriteCallback(std::bind(&TcpConnection::handleRead,this));
+	channel_->setReadCallback(std::bind(&TcpConnection::handleRead,this,std::placeholders::_1));
+	channel_->setWriteCallback(std::bind(&TcpConnection::handleWrite,this));
 	channel_->setCloseCallback(std::bind(&TcpConnection::handleClose,this));
 	channel_->setErrorCallback(std::bind(&TcpConnection::handleError, this));
 	
@@ -52,20 +52,22 @@ void TcpConnection::connectDestroyed() {
 }
 
 auto TcpConnection::handleError() -> void {
-	auto err{ sockets::getSocketError(channel_->fd()) };
+	int err{ sockets::getSocketError(channel_->fd()) };
 	LOG_ERROR << "TcpConnection::handleError [" << name_ << "] - SO_ERROR = " << err << " " << muduo::strerror_tl(err);
 }
 
-auto TcpConnection::handleRead() -> void {
-	char buf[65536];
-	ssize_t n{ ::read(channel_->fd(), buf, sizeof buf) };
+auto TcpConnection::handleRead(muduo::Timestamp receiveTime) -> void {
+	int savedErrno{ 0 };
+	ssize_t n{inputBuffer_.readFd(channel_->fd(),&savedErrno)};
 	if(n>0) {
-		messageCallback_(shared_from_this(), buf, n);
+		messageCallback_(shared_from_this(), &inputBuffer_, receiveTime);
 	}
 	else if(n==0) {
 		handleClose();
 	}
 	else {
+		errno = savedErrno;
+		LOG_SYSERR << "TcpConnection::handleRead";
 		handleError();
 	}
 }

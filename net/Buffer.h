@@ -66,8 +66,8 @@ namespace remuduo {
 			return str;
 		}
 
-		auto append(const std::string& std) -> void {
-			append(std.data(), str.length());
+		auto append(const std::string& str) -> void {
+			append(str.data(), str.length());
 		}
 
 		auto append(const char* data,size_t len) -> void {
@@ -91,7 +91,7 @@ namespace remuduo {
 			return begin() + writerIndex_;
 		}
 
-		auto beginWrite() const -> char* {
+		auto beginWrite() const -> const char* {
 			return begin() + writerIndex_;
 		}
 

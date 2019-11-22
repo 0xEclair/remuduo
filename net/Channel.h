@@ -10,7 +10,7 @@ namespace remuduo {
 	class Channel:boost::noncopyable {
 	public:
 		using EventCallback = std::function<void()>;
-		using ReadEventCallback = std::function<void(Timestamp)>;
+		using ReadEventCallback = std::function<void(muduo::Timestamp)>;
 		Channel(EventLoop* loop, int fd);
 		~Channel();
 		void handleEvent(muduo::Timestamp receiveTime);

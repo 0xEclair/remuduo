@@ -14,7 +14,7 @@ Acceptor::Acceptor(EventLoop* loop, const InetAddress& listenAddr)
 
 	acceptSocket_.setReuseAddr(true);
 	acceptSocket_.bindAddress(listenAddr);
-	acceptChannel_.setReadCallback([this]() {
+	acceptChannel_.setReadCallback([this](muduo::Timestamp) {
 		loop_->assertInLoopThread();
 		InetAddress peerAddr(0);
 		int connfd{ acceptSocket_.accept(&peerAddr) };

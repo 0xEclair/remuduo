@@ -35,7 +35,7 @@ void Channel::handleEvent(muduo::Timestamp receiveTime) {
 	}
 	
 	if(revents_ & (POLLIN |POLLPRI |POLLRDHUP)) {
-		if (readCallback_)readCallback_();
+		if (readCallback_)readCallback_(receiveTime);
 	}
 	
 	if(revents_ & POLLOUT) {

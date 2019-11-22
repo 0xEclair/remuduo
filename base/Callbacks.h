@@ -11,6 +11,6 @@ namespace remuduo {
 	
 	using TimerCallback = std::function<void()>;
 	using ConnectionCallback = std::function<void(const TcpConnectionPtr&)>;
-	using MessageCallback = std::function<void(const TcpConnectionPtr&, Buffer* data, Timestamp)>;
+	using MessageCallback = std::function<void(const TcpConnectionPtr&, Buffer* data, muduo::Timestamp)>;
 	using CloseCallback = std::function<void(const TcpConnectionPtr&)>;
 }

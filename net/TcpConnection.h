@@ -1,5 +1,6 @@
 #pragma once
 #include "InetAddress.h"
+#include "Buffer.h"
 
 #include "../base/Callbacks.h"
 
@@ -36,7 +37,7 @@ namespace remuduo {
 		enum StateE{kConnecting,kConnected,kDisconnected,};
 
 		void setState(StateE s) { state_ = s; }
-		auto handleRead() -> void;
+		auto handleRead(muduo::Timestamp receiveTime) -> void;
 		auto handleWrite() -> void {}
 		auto handleClose() -> void;
 		auto handleError() -> void;
@@ -52,5 +53,6 @@ namespace remuduo {
 		ConnectionCallback connectionCallback_;
 		MessageCallback messageCallback_;
 		CloseCallback closeCallback_;
+		Buffer inputBuffer_;
 	};
 }

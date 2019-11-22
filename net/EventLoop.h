@@ -55,7 +55,8 @@ namespace remuduo {
 		bool quit_{ false };
 		bool callingPendingFunctors_{false};
 		const pid_t threadId_;
-
+		muduo::Timestamp pollReturnTime_;
+		
 		std::unique_ptr<Poller> poller_;
 		std::unique_ptr<TimerQueue> timerQueue_{ new TimerQueue{this} };
 		int wakeupFd_;
