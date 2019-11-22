@@ -38,6 +38,9 @@
     <ClCompile Include="net\TcpServer.cc">
       <Filter>net</Filter>
     </ClCompile>
+    <ClCompile Include="net\Buffer.cc">
+      <Filter>net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="base">

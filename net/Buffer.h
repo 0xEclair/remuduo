@@ -55,7 +55,7 @@ namespace remuduo {
 			retrieve(end - peek());
 		}
 
-		auto retrieveAll() {
+		auto retrieveAll() -> void {
 			readerIndex_ = kCheapPrepend;
 			writerIndex_ = kCheapPrepend;
 		}
@@ -67,13 +67,52 @@ namespace remuduo {
 		}
 
 		auto append(const std::string& std) -> void {
-			//append(std.data(), str.length());
+			append(std.data(), str.length());
 		}
 
 		auto append(const char* data,size_t len) -> void {
-
-			
+			ensureWritableBytes(len);
+			std::copy(data, data + len, beginWrite());
+			hasWritten(len);
 		}
+
+		auto append(const void* data,size_t len) -> void {
+			append(static_cast<const char*>(data), len);
+		}
+		
+		auto ensureWritableBytes(size_t len) -> void {
+			if(writableBytes()<len) {
+				makeSpace(len);
+			}
+			assert(writableBytes() >= len);
+		}
+
+		auto beginWrite() -> char* {
+			return begin() + writerIndex_;
+		}
+
+		auto beginWrite() const -> char* {
+			return begin() + writerIndex_;
+		}
+
+		auto hasWritten(size_t len) -> void {
+			writerIndex_ += len;
+		}
+
+		auto prepend(const void* data, size_t len) -> void {
+			assert(len <= prependableBytes());
+			readerIndex_ -= len;
+			const char* d {static_cast<const char*>(data)};
+			std::copy(d, d + len, begin() + readerIndex_);
+		}
+
+		auto shrink(size_t reserve) -> void {
+			std::vector<char> buf(kCheapPrepend + readableBytes() + reserve);
+			std::copy(peek(), peek() + readableBytes(), buf.begin() + kCheapPrepend);
+			buf.swap(buffer_);
+		}
+
+		auto readFd(int fd, int* savedErrno)->ssize_t;
 	private:
 		char* begin() { return &*buffer_.begin(); }
 		const char* begin() const { return &*buffer_.begin(); }

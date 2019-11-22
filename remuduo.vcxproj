@@ -79,6 +79,7 @@
     <ClCompile Include="base\TimerQueue.cc" />
     <ClCompile Include="main.cc" />
     <ClCompile Include="net\Acceptor.cc" />
+    <ClCompile Include="net\Buffer.cc" />
     <ClCompile Include="net\Channel.cc" />
     <ClCompile Include="net\EventLoop.cc" />
     <ClCompile Include="net\EventLoopThread.cc" />
