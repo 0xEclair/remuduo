@@ -5,7 +5,7 @@
 
 std::string message1;
 std::string message2;
-
+int sleepSeconds{ 10 };
 void onConnection(const remuduo::TcpConnectionPtr& conn)
 {
 	if (conn->connected())
@@ -13,6 +13,9 @@ void onConnection(const remuduo::TcpConnectionPtr& conn)
 		printf("onConnection(): new connection [%s] from %s\n",
 			conn->name().c_str(),
 			conn->peerAddress().toHostPort().c_str());
+		if(sleepSeconds>0) {
+			::sleep(sleepSeconds);
+		}
 		conn->send(message1);
 		conn->send(message2);
 		conn->shutdown();

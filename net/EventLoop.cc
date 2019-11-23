@@ -4,6 +4,7 @@
 #include "Channel.h"
 
 #include <assert.h>
+#include <signal.h>
 #include <sys/eventfd.h>
 
 #include <muduo/base/Logging.h>
@@ -22,6 +23,16 @@ namespace {
 		return evtfd;
 	}
 }
+
+class IgnoreSigPipe{
+public:
+	IgnoreSigPipe()
+	{
+		::signal(SIGPIPE, SIG_IGN);
+	}
+};
+
+IgnoreSigPipe initObj;
 
 EventLoop::EventLoop()
 	:threadId_(muduo::CurrentThread::tid()),
