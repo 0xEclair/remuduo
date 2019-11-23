@@ -16,20 +16,21 @@ namespace remuduo {
 	class EventLoop;
 	class Socket;
 
-	class TcpConnection:boost::noncopyable,public std::enable_shared_from_this<TcpConnection> {
+	class TcpConnection :boost::noncopyable, public std::enable_shared_from_this<TcpConnection> {
 	public:
-		TcpConnection(EventLoop* loop, const std::string& name, int sockfd, 
-					  const InetAddress& localAddr, const InetAddress& peerAddr);
+		TcpConnection(EventLoop* loop, const std::string& name, int sockfd,
+			const InetAddress& localAddr, const InetAddress& peerAddr);
 		~TcpConnection();
 
 		void setConnectionCallback(const ConnectionCallback& cb) { connectionCallback_ = cb; }
 		void setMessageCallback(const MessageCallback& cb) { messageCallback_ = cb; }
-		void setCloseCallback(const CloseCallback& cb) { closeCallback_ = cb;  }
+		auto setWriteCompleteCallback(const WriteCompleteCallback& cb) -> void { writeCompleteCallback_ = cb; }
+		void setCloseCallback(const CloseCallback& cb) { closeCallback_ = cb; }
 
 		void connectEstablished();
 		void connectDestroyed();
 
-		const std::string& name()const { return name_; }
+		const std::string& name() const { return name_; }
 		const InetAddress& localAddress() { return localAddr_; }
 		const InetAddress& peerAddress() { return peerAddr_; }
 		bool connected() const { return state_ == kConnected; }
@@ -38,7 +39,7 @@ namespace remuduo {
 		auto shutdown() -> void;
 		auto setTcpNoDelay(bool on) -> void;
 	private:
-		enum StateE{kConnecting,kConnected,kDisconnecting,kDisconnected,};
+		enum StateE { kConnecting, kConnected, kDisconnecting, kDisconnected, };
 
 		void setState(StateE s) { state_ = s; }
 		auto handleRead(muduo::Timestamp receiveTime) -> void;
@@ -50,7 +51,7 @@ namespace remuduo {
 	private:
 		EventLoop* loop_;
 		std::string name_;
-		StateE state_ { kConnecting }; // FIXME: use atomic variable
+		StateE state_{ kConnecting }; // FIXME: use atomic variable
 		// we don't expose those classes to client.
 		std::unique_ptr<Socket> socket_;
 		std::unique_ptr<Channel> channel_;
@@ -58,8 +59,9 @@ namespace remuduo {
 		InetAddress peerAddr_;
 		ConnectionCallback connectionCallback_;
 		MessageCallback messageCallback_;
+		WriteCompleteCallback writeCompleteCallback_;
 		CloseCallback closeCallback_;
 		Buffer inputBuffer_;
 		Buffer outputBuffer_;
 	};
-}
+};

@@ -26,6 +26,7 @@ namespace remuduo {
 
 		void setConnectionCallback(const ConnectionCallback& cb) { connectionCallback_ = cb; }
 		void setMessageCallback(const MessageCallback& cb) { messageCallback_ = cb; }
+		auto setWriteCompleteCallback(const WriteCompleteCallback& cb) -> void { writeCompleteCallback_ = cb; }
 		
 	private:
 		void newConnection(int sockfd, const InetAddress& peerAddr);
@@ -36,6 +37,7 @@ namespace remuduo {
 		std::unique_ptr<Acceptor> acceptor_;
 		ConnectionCallback connectionCallback_;
 		MessageCallback messageCallback_;
+		WriteCompleteCallback writeCompleteCallback_;
 		bool started_{false};
 		int nextConnId_{1};
 		std::map<std::string, TcpConnectionPtr> connections_;

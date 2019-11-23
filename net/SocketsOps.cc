@@ -22,9 +22,9 @@ namespace {
 	}
 
 	void setNonBlockAndCloseOnExec(int sockfd) {
-		int flags{ ::fcntl(sockfd,F_GETFL,0) };
+		auto flags = ::fcntl(sockfd,F_GETFL,0) ;
 		flags |= O_NONBLOCK;
-		int ret{ ::fcntl(sockfd,F_SETFL,flags) };
+		auto ret = ::fcntl(sockfd,F_SETFL,flags);
 		// FIXME check
 
 		// close-on-exec
@@ -37,13 +37,13 @@ namespace {
 
 int sockets::createNonBlockingOrDie() {
 #if VALGRIND
-	int sockfd{ ::socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) };
+	int sockfd = ::socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 	if(sockfd<0) {
 		LOG_SYSFATAL << "sockets::createNonblockingOrDie";
 	}
 	setNonBlockAndCloseOnExec(sockfd);
 #else
-	int sockfd{ ::socket(AF_INET,SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC,IPPROTO_TCP) };
+	auto sockfd = int(::socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP));
 	if(sockfd<0) {
 		LOG_SYSFATAL << "sockets::createNonblockingOrDie";
 	}
@@ -52,14 +52,14 @@ int sockets::createNonBlockingOrDie() {
 }
 
 void sockets::bindOrDie(int sockfd, const sockaddr_in& addr) {
-	int ret{ ::bind(sockfd,sockaddr_cast(&addr),sizeof addr) };
+	auto ret = int(::bind(sockfd, sockaddr_cast(&addr), sizeof addr));
 	if(ret<0) {
 		LOG_SYSFATAL << "sockets::bindOrDie";
 	}
 }
 
 void sockets::listenOrDie(int sockfd) {
-	int ret{ ::listen(sockfd,SOMAXCONN) };
+	auto ret = ::listen(sockfd,SOMAXCONN);
 	if(ret<0) {
 		LOG_SYSFATAL << "sockets::listenOrDie";
 	}
@@ -68,10 +68,10 @@ void sockets::listenOrDie(int sockfd) {
 int sockets::accept(int sockfd, sockaddr_in* addr) {
 	socklen_t addrlen = sizeof *addr;
 #if VALGRIND
-	int connfd{ ::accept(sockfd,sockaddr_cast(addr),&addrlen) };
+	auto connfd = ::accept(sockfd,sockaddr_cast(addr),&addrlen);
 	setNonBlockAndCloseOnExec(connfd);
 #else
-	int connfd { ::accept4(sockfd,sockaddr_cast(addr),&addrlen,SOCK_NONBLOCK | SOCK_CLOEXEC) };
+	auto connfd = ::accept4(sockfd,sockaddr_cast(addr),&addrlen,SOCK_NONBLOCK | SOCK_CLOEXEC);
 #endif
 	if(connfd<0) {
 		auto savedErrno = errno;
@@ -118,7 +118,7 @@ auto sockets::shutdownWrite(int sockfd) -> void {
 void sockets::toHostPort(char* buf, size_t size, const sockaddr_in& addr){
 	char host[INET_ADDRSTRLEN] = "INVALID";
 	::inet_ntop(AF_INET, &addr.sin_addr, host, sizeof host);
-	auto port{ sockets::networkToHost16(addr.sin_port) };
+	auto port = sockets::networkToHost16(addr.sin_port);
 	snprintf(buf, size, "%s:%u", host, port);
 }
 
@@ -142,7 +142,7 @@ sockaddr_in sockets::getLocalAddr(int sockfd) {
 
 auto sockets::getSocketError(int sockfd) -> int {
 	int optval;
-	socklen_t optlen{ sizeof optval };
+	socklen_t optlen = sizeof optval;
 	if(::getsockopt(sockfd,SOL_SOCKET,SO_ERROR,&optval,&optlen)<0) {
 		return errno;
 	}

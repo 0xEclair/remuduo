@@ -52,7 +52,7 @@ void TcpConnection::connectDestroyed() {
 }
 
 auto TcpConnection::handleError() -> void {
-	int err{ sockets::getSocketError(channel_->fd()) };
+	auto err = sockets::getSocketError(channel_->fd());
 	LOG_ERROR << "TcpConnection::handleError [" << name_ << "] - SO_ERROR = " << err << " " << muduo::strerror_tl(err);
 }
 
@@ -62,8 +62,8 @@ auto TcpConnection::send(const std::string& message) -> void {
 			sendInLoop(message);
 		}
 		else {
-			loop_->runInLoop([this,message=std::move(message)](){
-				sendInLoop(message);
+			loop_->runInLoop([_this=std::move(shared_from_this()),message=std::move(message)](){
+				_this->sendInLoop(message);
 			});
 		}
 	}
@@ -85,13 +85,16 @@ auto TcpConnection::setTcpNoDelay(bool on) -> void {
 
 auto TcpConnection::sendInLoop(const std::string& message) -> void {
 	loop_->assertInLoopThread();
-	ssize_t nwrote{ 0 };
+	ssize_t nwrote = 0;
 	// if no thing in output queue,try writing directly
 	if(!channel_->isWriting() && outputBuffer_.readableBytes()==0) {
 		nwrote = ::write(channel_->fd(), message.data(), message.size());
 		if(nwrote>=0) {
 			if(muduo::implicit_cast<size_t>(nwrote)<message.size()) {
 				LOG_TRACE << "I am going to write more data";
+			}
+			else if(writeCompleteCallback_) {
+				loop_->queueInLoop(std::bind(writeCompleteCallback_, shared_from_this()));
 			}
 		}
 		else {
@@ -120,8 +123,8 @@ auto TcpConnection::shutdownInLoop() -> void {
 }
 
 auto TcpConnection::handleRead(muduo::Timestamp receiveTime) -> void {
-	int savedErrno{ 0 };
-	ssize_t n{inputBuffer_.readFd(channel_->fd(),&savedErrno)};
+	auto savedErrno = int{0};
+	ssize_t n = inputBuffer_.readFd(channel_->fd(), &savedErrno);
 	if(n>0) {
 		messageCallback_(shared_from_this(), &inputBuffer_, receiveTime);
 	}
@@ -138,13 +141,16 @@ auto TcpConnection::handleRead(muduo::Timestamp receiveTime) -> void {
 auto TcpConnection::handleWrite() -> void {
 	loop_->assertInLoopThread();
 	if(channel_->isWriting()) {
-		ssize_t n{ ::write(channel_->fd(),
+		ssize_t n =::write(channel_->fd(),
 						   outputBuffer_.peek(),
-						   outputBuffer_.readableBytes()) };
+						   outputBuffer_.readableBytes());
 		if(n>0) {
 			outputBuffer_.retrieve(n);
 			if(outputBuffer_.readableBytes()==0) {
 				channel_->disableWriting();
+				if(writeCompleteCallback_) {
+					loop_->queueInLoop(std::bind(writeCompleteCallback_, shared_from_this()));
+				}
 				if(state_==kDisconnecting) {
 					shutdownInLoop();
 				}
