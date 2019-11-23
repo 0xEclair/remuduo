@@ -109,6 +109,12 @@ void sockets::close(int sockfd) {
 	}
 }
 
+auto sockets::shutdownWrite(int sockfd) -> void {
+	if(::shutdown(sockfd,SHUT_WR)<0) {
+		LOG_SYSERR << "sockets::shutdownWrite";
+	}
+}
+
 void sockets::toHostPort(char* buf, size_t size, const sockaddr_in& addr){
 	char host[INET_ADDRSTRLEN] = "INVALID";
 	::inet_ntop(AF_INET, &addr.sin_addr, host, sizeof host);

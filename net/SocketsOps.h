@@ -36,7 +36,8 @@ namespace sockets {
 	void listenOrDie(int sockfd);
 	int accept(int sockfd, sockaddr_in* addr);
 	void close(int sockfd);
-
+	auto shutdownWrite(int sockfd) -> void;
+	
 	void toHostPort(char* buf, size_t size, const sockaddr_in& addr);
 	void fromHostPort(const char* ip, uint64_t port, sockaddr_in* addr);
 

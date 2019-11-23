@@ -33,14 +33,19 @@ namespace remuduo {
 		const InetAddress& localAddress() { return localAddr_; }
 		const InetAddress& peerAddress() { return peerAddr_; }
 		bool connected() const { return state_ == kConnected; }
+
+		auto send(const std::string& message) -> void;
+		auto shutdown() -> void;
 	private:
-		enum StateE{kConnecting,kConnected,kDisconnected,};
+		enum StateE{kConnecting,kConnected,kDisconnecting,kDisconnected,};
 
 		void setState(StateE s) { state_ = s; }
 		auto handleRead(muduo::Timestamp receiveTime) -> void;
-		auto handleWrite() -> void {}
+		auto handleWrite() -> void;
 		auto handleClose() -> void;
 		auto handleError() -> void;
+		auto sendInLoop(const std::string& message) -> void;
+		auto shutdownInLoop() -> void;
 	private:
 		EventLoop* loop_;
 		std::string name_;
@@ -54,5 +59,6 @@ namespace remuduo {
 		MessageCallback messageCallback_;
 		CloseCallback closeCallback_;
 		Buffer inputBuffer_;
+		Buffer outputBuffer_;
 	};
 }

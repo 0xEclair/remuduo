@@ -20,7 +20,8 @@ namespace remuduo {
 		int accept(InetAddress* peeraddr);
 
 		void setReuseAddr(bool on);
-		
+
+		auto shutdownWrite() -> void;
 	private:
 		const int sockfd_;
 	};

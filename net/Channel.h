@@ -24,10 +24,12 @@ namespace remuduo {
 		void set_revents(int revt) { revents_ = revt; }
 		bool isNoneEvent() const { return events_ == kNoneEvent; }
 
-		void enableReading() { events_ |= kReadEvent; update(); }
+		auto enableReading() -> void { events_ |= kReadEvent; update(); }
+		auto enableWriting() -> void { events_ |= kWriteEvent; update(); }
+		auto disableWriting() -> void { events_ &= ~kWriteEvent; update(); }
 
 		auto disableAll() -> void { events_ = kNoneEvent; update(); }
-		
+		auto isWriting() -> bool { return events_ & kWriteEvent; }
 		// for Poller
 		int index() { return index_; }
 		void set_index(int idx) { index_ = idx; }
