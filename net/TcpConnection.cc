@@ -79,6 +79,10 @@ auto TcpConnection::shutdown() -> void {
 	}
 }
 
+auto TcpConnection::setTcpNoDelay(bool on) -> void {
+	socket_->setTcpNoDelay(on);
+}
+
 auto TcpConnection::sendInLoop(const std::string& message) -> void {
 	loop_->assertInLoopThread();
 	ssize_t nwrote{ 0 };
