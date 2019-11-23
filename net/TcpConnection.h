@@ -36,7 +36,6 @@ namespace remuduo {
 
 		auto send(const std::string& message) -> void;
 		auto shutdown() -> void;
-		auto setTcpNoDelay(bool on) -> void;
 	private:
 		enum StateE{kConnecting,kConnected,kDisconnecting,kDisconnected,};
 

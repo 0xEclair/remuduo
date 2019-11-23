@@ -22,8 +22,6 @@ namespace remuduo {
 		void setReuseAddr(bool on);
 
 		auto shutdownWrite() -> void;
-
-		auto setTcpNoDelay(bool on) -> void;
 	private:
 		const int sockfd_;
 	};

@@ -39,9 +39,3 @@ void Socket::setReuseAddr(bool on) {
 auto Socket::shutdownWrite() -> void {
 	sockets::shutdownWrite(sockfd_);
 }
-
-auto Socket::setTcpNoDelay(bool on) -> void {
-	int optval{ on ? 1 : 0 };
-	::setsockopt(sockfd_, IPPROTO_TCP, TCP_NODELAY, &optval, sizeof optval);
-	// FIXME CHECK
-}
