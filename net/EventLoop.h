@@ -45,6 +45,8 @@ namespace remuduo {
 			return threadId_ == muduo::CurrentThread::tid();
 		}
 		static EventLoop* getEventLoopOfCurrentThread();
+
+		void cancel(TimerId timerId);
 	private:
 		void abortNotInLoopThread();
 		void handleRead();	// weak up

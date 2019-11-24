@@ -85,6 +85,7 @@
     <ClCompile Include="net\Acceptor.cc" />
     <ClCompile Include="net\Buffer.cc" />
     <ClCompile Include="net\Channel.cc" />
+    <ClCompile Include="net\Connector.cc" />
     <ClCompile Include="net\EventLoop.cc" />
     <ClCompile Include="net\EventLoopThread.cc" />
     <ClCompile Include="net\EventLoopThreadPool.cc" />
@@ -102,8 +103,9 @@
     <ClInclude Include="base\TimerId.h" />
     <ClInclude Include="base\TimerQueue.h" />
     <ClInclude Include="net\Acceptor.h" />
-    <None Include="net\Buffer.h" />
+    <ClInclude Include="net\Buffer.h" />
     <ClInclude Include="net\Channel.h" />
+    <ClInclude Include="net\Connector.h" />
     <ClInclude Include="net\EventLoop.h" />
     <ClInclude Include="net\EventLoopThread.h" />
     <ClInclude Include="net\EventLoopThreadPool.h" />

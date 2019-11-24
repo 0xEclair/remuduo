@@ -90,6 +90,27 @@ void TimerQueue::addTimerInLoop(Timer* timer) {
 	}
 }
 
+void TimerQueue::cancel(TimerId timerId) {
+	loop_->runInLoop(std::bind(&TimerQueue::cancelInLoop, this, timerId));
+}
+
+void TimerQueue::cancelInLoop(TimerId timerId) {
+	loop_->assertInLoopThread();
+	assert(timers_.size() == activeTimers_.size());
+	ActiveTimer timer(timerId.timer_, timerId.sequence_);
+	ActiveTimerSet::iterator it = activeTimers_.find(timer);
+	if(it!=activeTimers_.end()) {
+		auto n = timers_.erase(Entry(it->first->expiration(), it->first));
+		assert(n == 1); (void)n;
+		delete it->first;
+		activeTimers_.erase(it);
+	}
+	else if(callingExpiredTimers_) {
+		cancelingTimers_.insert(timer);
+	}
+	assert(timers_.size() == activeTimers_.size());
+}
+
 void TimerQueue::handleRead() {
 	loop_->assertInLoopThread();
 	muduo::Timestamp now(muduo::Timestamp::now());
@@ -97,14 +118,18 @@ void TimerQueue::handleRead() {
 
 	std::vector<Entry> expired = getExpired(now);
 
+	callingExpiredTimers_ = true;
+	cancelingTimers_.clear();
+	
 	for(auto it:expired) {
 		it.second->run();
 	}
-
+	callingExpiredTimers_ = false;
 	reset(expired, now);
 }
 
 std::vector<TimerQueue::Entry> TimerQueue::getExpired(muduo::Timestamp now) {
+	assert(timers_.size() == activeTimers_.size());
 	std::vector<Entry> expired;
 	// 生成现在的时间戳，且Timer* 为最大值
 	// 比UINTPTR_MAX小的都在内
@@ -115,13 +140,21 @@ std::vector<TimerQueue::Entry> TimerQueue::getExpired(muduo::Timestamp now) {
 	std::copy(timers_.begin(), it, back_inserter(expired));
 	timers_.erase(timers_.begin(), it);
 
+	for(auto& it:expired) {
+		ActiveTimer timer(it.second, it.second->sequence());
+		auto n = activeTimers_.erase(timer);
+		assert(n == 1); (void)n;
+	}
+	assert(timers_.size() == activeTimers_.size());
 	return expired;
 }
 
 void TimerQueue::reset(const std::vector<Entry>& expired, muduo::Timestamp now) {
 	muduo::Timestamp nextExpire;
 	for(auto it:expired) {
-		if(it.second->repeat()) {
+		auto timer = ActiveTimer{ it.second,it.second->sequence() };
+		if(it.second->repeat()
+			&& cancelingTimers_.find(timer)==cancelingTimers_.end()) {
 			it.second->restart(now);
 			insert(it.second);
 		}
@@ -140,13 +173,22 @@ void TimerQueue::reset(const std::vector<Entry>& expired, muduo::Timestamp now) 
 }
  
 bool TimerQueue::insert(Timer* timer) {
-	auto earliestChanged=false;
+	loop_->assertInLoopThread();
+	assert(timers_.size() == activeTimers_.size());
+	auto earliestChanged = false;
 	auto when = timer->expiration();
 	auto it = timers_.begin();
 	if(it==timers_.end()||when<it->first) {
 		earliestChanged = true;
 	}
-	auto result = timers_.insert(std::make_pair(when, timer));
-	assert(result.second);
+	{
+		std::pair<TimerList::iterator, bool> result = timers_.insert(Entry(when, timer));
+		assert(result.second); (void)result;
+	}
+	{
+		std::pair<ActiveTimerSet::iterator, bool> result= activeTimers_.insert(ActiveTimer(timer, timer->sequence()));
+		assert(result.second); (void)result;
+	}
+	assert(timers_.size() == activeTimers_.size());
 	return earliestChanged;
 }

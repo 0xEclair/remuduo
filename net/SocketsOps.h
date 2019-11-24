@@ -42,7 +42,12 @@ namespace sockets {
 	void fromHostPort(const char* ip, uint64_t port, sockaddr_in* addr);
 
 	sockaddr_in getLocalAddr(int sockfd);
+	sockaddr_in getPeerAddr(int sockfd);
 
 	auto getSocketError(int sockfd) -> int;
+
+	auto connect(int sockfd, const sockaddr_in& addr) -> int;
+
+	auto isSelfConnect(int sockfd) -> bool;
 }
 }

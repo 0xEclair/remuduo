@@ -140,6 +140,17 @@ sockaddr_in sockets::getLocalAddr(int sockfd) {
 	return localaddr;
 }
 
+sockaddr_in sockets::getPeerAddr(int sockfd) {
+	sockaddr_in peeraddr;
+	bzero(&peeraddr, sizeof peeraddr);
+	socklen_t addrlen = sizeof(peeraddr);
+	if (::getpeername(sockfd, sockaddr_cast(&peeraddr), &addrlen) < 0)
+	{
+		LOG_SYSERR << "sockets::getPeerAddr";
+	}
+	return peeraddr;
+}
+
 auto sockets::getSocketError(int sockfd) -> int {
 	int optval;
 	socklen_t optlen = sizeof optval;
@@ -149,4 +160,15 @@ auto sockets::getSocketError(int sockfd) -> int {
 	else {
 		return optval;
 	}
+}
+
+auto sockets::connect(int sockfd, const sockaddr_in& addr) -> int {
+	return ::connect(sockfd, sockaddr_cast(&addr), sizeof addr);
+}
+
+auto sockets::isSelfConnect(int sockfd) -> bool {
+	auto localaddr = getLocalAddr(sockfd);
+	auto peeraddr = getPeerAddr(sockfd);
+	return localaddr.sin_port == peeraddr.sin_port
+		&& localaddr.sin_addr.s_addr == peeraddr.sin_addr.s_addr;
 }

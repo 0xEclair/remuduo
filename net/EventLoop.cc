@@ -145,6 +145,10 @@ EventLoop* EventLoop::getEventLoopOfCurrentThread() {
 	return loopInThisThread;
 }
 
+void EventLoop::cancel(TimerId timerId) {
+	return timerQueue_->cancel(timerId);
+}
+
 void EventLoop::abortNotInLoopThread() {
 	LOG_FATAL
 		<< "EventLoop::abortNotInLoopThread - EventLoop " << this
