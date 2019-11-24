@@ -38,9 +38,9 @@ namespace remuduo {
 	private:
 		void update();
 
-		static constexpr int kNoneEvent{ 0 };
-		static constexpr int kReadEvent{ POLLIN | POLLPRI };
-		static constexpr int kWriteEvent{ POLLOUT };
+		static constexpr int kNoneEvent = 0 ;
+		static constexpr int kReadEvent = (POLLIN | POLLPRI) ;
+		static constexpr int kWriteEvent = POLLOUT ;
 	private:
 		EventLoop* loop_;
 		const int fd_;
@@ -48,7 +48,7 @@ namespace remuduo {
 		int revents_;
 		int index_; // used by Poller
 
-		bool eventHandling_ { false };
+		bool eventHandling_ = false;
 		
 		ReadEventCallback readCallback_;
 		EventCallback writeCallback_;

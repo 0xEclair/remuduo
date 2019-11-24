@@ -51,7 +51,7 @@ namespace remuduo {
 	private:
 		EventLoop* loop_;
 		std::string name_;
-		StateE state_{ kConnecting }; // FIXME: use atomic variable
+		StateE state_ = kConnecting; // FIXME: use atomic variable
 		// we don't expose those classes to client.
 		std::unique_ptr<Socket> socket_;
 		std::unique_ptr<Channel> channel_;

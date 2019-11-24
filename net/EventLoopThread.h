@@ -16,10 +16,10 @@ namespace remuduo {
 	private:
 		void threadFunc();
 	private:
-		EventLoop* loop_{nullptr};
-		bool exiting_{false};
+		EventLoop* loop_ = nullptr;
+		bool exiting_ = false;
 		muduo::Thread thread_;
-		muduo::MutexLock mutex_{};
+		muduo::MutexLock mutex_;
 		muduo::Condition cond_{mutex_};
 	};
 }

@@ -51,22 +51,21 @@ namespace remuduo {
 		void doPendingFunctors();
 	private:
 
-		bool looping_{ false };/* atomic */
-		bool quit_{ false };
-		bool callingPendingFunctors_{false};
+		bool looping_ = false;/* atomic */
+		bool quit_ = false;
+		bool callingPendingFunctors_ = false;
 		const pid_t threadId_;
 		muduo::Timestamp pollReturnTime_;
 		
 		std::unique_ptr<Poller> poller_;
-		std::unique_ptr<TimerQueue> timerQueue_{ new TimerQueue{this} };
+		std::unique_ptr<TimerQueue> timerQueue_{ new TimerQueue(this) };
 		int wakeupFd_;
 		// 不像在TimerQueue里，是内部类
 		// 不把 Channel 暴露给 client
 		// 用于处理 wakeupFd_ 上的 readable 事件。将事件分发至handleRead()
-		std::unique_ptr<Channel> wakeupChannel_{new Channel(this,wakeupFd_)};
+		std::unique_ptr<Channel> wakeupChannel_{ new Channel(this,wakeupFd_) };
 		std::vector<Channel*> activeChannels_;
 		muduo::MutexLock mutex_;
 		std::vector<std::function<void()>> pendingFunctors_;	// @BuardedBy mutex_
-		
 	};
 }

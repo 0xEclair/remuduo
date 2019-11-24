@@ -87,6 +87,7 @@
     <ClCompile Include="net\Channel.cc" />
     <ClCompile Include="net\EventLoop.cc" />
     <ClCompile Include="net\EventLoopThread.cc" />
+    <ClCompile Include="net\EventLoopThreadPool.cc" />
     <ClCompile Include="net\InetAddress.cc" />
     <ClCompile Include="net\Poller.cc" />
     <ClCompile Include="net\Socket.cc" />
@@ -105,6 +106,7 @@
     <ClInclude Include="net\Channel.h" />
     <ClInclude Include="net\EventLoop.h" />
     <ClInclude Include="net\EventLoopThread.h" />
+    <ClInclude Include="net\EventLoopThreadPool.h" />
     <ClInclude Include="net\InetAddress.h" />
     <ClInclude Include="net\Poller.h" />
     <ClInclude Include="net\Socket.h" />

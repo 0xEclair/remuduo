@@ -37,6 +37,6 @@ namespace remuduo {
 		const int timerfd_;
 		Channel timerfdChannel_;
 		// Timer list sorted by expiration
-		std::set<Entry> timers_{};
+		std::set<Entry> timers_;
 	};
 }

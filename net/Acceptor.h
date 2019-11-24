@@ -30,6 +30,6 @@ namespace remuduo {
 		Channel acceptChannel_;
 		// callback for accept()
 		NewConnectionCallback newConnectionCallback_;
-		bool listenning_ { false };
+		bool listenning_ = false;
 	};
 }

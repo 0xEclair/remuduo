@@ -15,11 +15,7 @@ namespace remuduo {
 		static constexpr int kInitialSize{ 1024 };
 
 		Buffer()
-			:buffer_(kCheapPrepend+kInitialSize),
-			 readerIndex_(kCheapPrepend),
-			 writerIndex_(kCheapPrepend) {
-
-			
+			:buffer_(kCheapPrepend+kInitialSize){
 		}
 
 		auto swap(Buffer& rhs) -> void {
@@ -121,7 +117,7 @@ namespace remuduo {
 		}
 	private:
 		std::vector<char> buffer_;
-		size_t readerIndex_;
-		size_t writerIndex_;
+		size_t readerIndex_ = kCheapPrepend;
+		size_t writerIndex_ = kCheapPrepend;
 	};
 }
