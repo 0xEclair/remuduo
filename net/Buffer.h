@@ -112,9 +112,7 @@ namespace remuduo {
 	private:
 		char* begin() { return &*buffer_.begin(); }
 		const char* begin() const { return &*buffer_.begin(); }
-		auto makeSpace(size_t len) -> void {
-			
-		}
+		auto makeSpace(size_t len) -> void;
 	private:
 		std::vector<char> buffer_;
 		size_t readerIndex_ = kCheapPrepend;

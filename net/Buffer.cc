@@ -31,3 +31,17 @@ auto Buffer::readFd(int fd, int* savedErrno) -> ssize_t {
 	}
 	return n;
 }
+
+auto Buffer::makeSpace(size_t len) -> void {
+	if (writableBytes() + prependableBytes() < len + kCheapPrepend) {
+		buffer_.resize(writerIndex_ + len);
+	}
+	else {
+		assert(kCheapPrepend < readerIndex_);
+		auto readable = readableBytes();
+		std::copy(begin() + readerIndex_, begin() + writerIndex_, begin() + kCheapPrepend);
+		readerIndex_ = kCheapPrepend;
+		writerIndex_ = readerIndex_ + readable;
+		assert(readable == readableBytes());
+	}
+}
