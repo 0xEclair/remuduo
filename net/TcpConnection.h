@@ -30,6 +30,7 @@ namespace remuduo {
 		void connectEstablished();
 		void connectDestroyed();
 
+		auto getLoop() const -> EventLoop* { return loop_; }
 		const std::string& name() const { return name_; }
 		const InetAddress& localAddress() { return localAddr_; }
 		const InetAddress& peerAddress() { return peerAddr_; }

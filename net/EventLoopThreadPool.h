@@ -27,7 +27,7 @@ namespace remuduo {
 		bool started_ = false;
 		int numThreads_ = 0;
 		int next_ = 0;	// always in loop thread
-		// 
+		
 		// 类似于std::vector<std::unique_ptr<EventLoopThread>>
 		boost::ptr_vector<EventLoopThread> threads_;
 		std::vector<EventLoop*> loops_;
