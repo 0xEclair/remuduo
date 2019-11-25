@@ -98,7 +98,7 @@ void TimerQueue::cancelInLoop(TimerId timerId) {
 	loop_->assertInLoopThread();
 	assert(timers_.size() == activeTimers_.size());
 	ActiveTimer timer(timerId.timer_, timerId.sequence_);
-	ActiveTimerSet::iterator it = activeTimers_.find(timer);
+	auto it = activeTimers_.find(timer);
 	if(it!=activeTimers_.end()) {
 		auto n = timers_.erase(Entry(it->first->expiration(), it->first));
 		assert(n == 1); (void)n;

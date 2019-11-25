@@ -97,6 +97,7 @@ auto Connector::connect() -> void {
 auto Connector::connecting(int sockfd) -> void {
 	setState(kConnecting);
 	assert(!channel_);
+	// channel对应一个fd,所以在有了fd之后才能创建channel
 	channel_.reset(new Channel(loop_, sockfd));
 	channel_->setWriteCallback([this]() {
 		LOG_TRACE << "Connector::handleWrite " << state_;
@@ -167,5 +168,6 @@ auto Connector::removeAndResetChannel() -> int {
 }
 
 auto Connector::resetChannel() -> void {
+	//loop_->assertInLoopThread();
 	channel_.reset();
 }

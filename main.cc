@@ -1,26 +1,73 @@
-#include "net/Connector.h"
+#include "net/TcpServer.h"
 #include "net/EventLoop.h"
-
+#include "net/InetAddress.h"
 #include <stdio.h>
 
-remuduo::EventLoop* g_loop;
+std::string message;
 
-void connectCallback(int sockfd)
+void onConnection(const remuduo::TcpConnectionPtr& conn)
 {
-	printf("connected.\n");
-	g_loop->quit();
+	if (conn->connected())
+	{
+		printf("onConnection(): tid=%d new connection [%s] from %s\n",
+			muduo::CurrentThread::tid(),
+			conn->name().c_str(),
+			conn->peerAddress().toHostPort().c_str());
+		conn->send(message);
+	}
+	else
+	{
+		printf("onConnection(): tid=%d connection [%s] is down\n",
+			muduo::CurrentThread::tid(),
+			conn->name().c_str());
+	}
+}
+
+void onWriteComplete(const remuduo::TcpConnectionPtr& conn)
+{
+	conn->send(message);
+}
+
+void onMessage(const remuduo::TcpConnectionPtr& conn,
+	remuduo::Buffer* buf,
+	muduo::Timestamp receiveTime)
+{
+	printf("onMessage(): tid=%d received %zd bytes from connection [%s] at %s\n",
+		muduo::CurrentThread::tid(),
+		buf->readableBytes(),
+		conn->name().c_str(),
+		receiveTime.toFormattedString().c_str());
+
+	buf->retrieveAll();
 }
 
 int main(int argc, char* argv[])
 {
+	printf("main(): pid = %d\n", getpid());
+
+	std::string line;
+	for (int i = 33; i < 127; ++i)
+	{
+		line.push_back(char(i));
+	}
+	line += line;
+
+	for (size_t i = 0; i < 127 - 33; ++i)
+	{
+		message += line.substr(i, 72) + '\n';
+	}
+
+	remuduo::InetAddress listenAddr(9981);
 	remuduo::EventLoop loop;
-	g_loop = &loop;
-	remuduo::InetAddress addr("127.0.0.1", 9981);
-	remuduo::ConnectorPtr connector(new remuduo::Connector(&loop, addr));
-	connector->setNewConnectionCallback(connectCallback);
-	connector->start();
+
+	remuduo::TcpServer server(&loop, listenAddr);
+	server.setConnectionCallback(onConnection);
+	server.setMessageCallback(onMessage);
+	server.setWriteCompleteCallback(onWriteComplete);
+	if (argc > 1) {
+		server.setThreadNum(atoi(argv[1]));
+	}
+	server.start();
 
 	loop.loop();
-
-	return 0;
 }
