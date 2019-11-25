@@ -53,5 +53,4 @@ namespace remuduo {
 		int retryDelayMs_;
 		TimerId timerId_;
 	};
-	using ConnectorPtr = std::unique_ptr<Connector>;
 }

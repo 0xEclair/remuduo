@@ -47,6 +47,9 @@
     <ClCompile Include="net\Connector.cc">
       <Filter>net</Filter>
     </ClCompile>
+    <ClCompile Include="net\TcpClient.cc">
+      <Filter>net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="base">
@@ -106,6 +109,9 @@
       <Filter>net</Filter>
     </ClInclude>
     <ClInclude Include="net\Acceptor.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\TcpClient.h">
       <Filter>net</Filter>
     </ClInclude>
   </ItemGroup>

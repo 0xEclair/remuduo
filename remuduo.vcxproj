@@ -93,6 +93,7 @@
     <ClCompile Include="net\Poller.cc" />
     <ClCompile Include="net\Socket.cc" />
     <ClCompile Include="net\SocketsOps.cc" />
+    <ClCompile Include="net\TcpClient.cc" />
     <ClCompile Include="net\TcpConnection.cc" />
     <ClCompile Include="net\TcpServer.cc" />
   </ItemGroup>
@@ -113,6 +114,7 @@
     <ClInclude Include="net\Poller.h" />
     <ClInclude Include="net\Socket.h" />
     <ClInclude Include="net\SocketsOps.h" />
+    <ClInclude Include="net\TcpClient.h" />
     <ClInclude Include="net\TcpConnection.h" />
     <ClInclude Include="net\TcpServer.h" />
   </ItemGroup>
