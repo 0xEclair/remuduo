@@ -79,7 +79,7 @@ TimerQueue::~TimerQueue() {
 TimerId TimerQueue::addTimer(const std::function<void()>& cb, muduo::Timestamp when, double interval) {
 	auto timer = new Timer(cb, when, interval);
 	loop_->runInLoop(std::bind(&TimerQueue::addTimerInLoop, this, timer));
-	return TimerId(timer);
+	return TimerId(timer,timer->sequence());
 }
 
 void TimerQueue::addTimerInLoop(Timer* timer) {
@@ -116,7 +116,7 @@ void TimerQueue::handleRead() {
 	muduo::Timestamp now(muduo::Timestamp::now());
 	readTimerfd(timerfd_, now);
 
-	std::vector<Entry> expired = getExpired(now);
+	auto expired = getExpired(now);
 
 	callingExpiredTimers_ = true;
 	cancelingTimers_.clear();
