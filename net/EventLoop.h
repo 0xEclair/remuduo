@@ -11,7 +11,7 @@
 
 namespace remuduo {
 	class Channel;
-	class Poller;
+	class EPoller;
 	class TimerQueue;
 	
 	class EventLoop :boost::noncopyable{
@@ -59,7 +59,7 @@ namespace remuduo {
 		const pid_t threadId_;
 		muduo::Timestamp pollReturnTime_;
 		
-		std::unique_ptr<Poller> poller_;
+		std::unique_ptr<EPoller> poller_;
 		std::unique_ptr<TimerQueue> timerQueue_{ new TimerQueue(this) };
 		int wakeupFd_;
 		// 不像在TimerQueue里，是内部类

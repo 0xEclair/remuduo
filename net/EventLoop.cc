@@ -1,6 +1,6 @@
 #include "EventLoop.h"
 
-#include "Poller.h"
+#include "EPoller.h"
 #include "Channel.h"
 
 #include <assert.h>
@@ -36,7 +36,7 @@ IgnoreSigPipe initObj;
 
 EventLoop::EventLoop()
 	:threadId_(muduo::CurrentThread::tid()),
-	 poller_(new Poller(this)),
+	 poller_(new EPoller(this)),
 	 wakeupFd_(createEventfd()){
 	
 	LOG_TRACE << "EventLoop created" << this << " in thread " << threadId_;
